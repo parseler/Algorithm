@@ -3,7 +3,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -52,20 +51,21 @@ public class Main_10711 {
 			for (int j = 1; j < m - 1; j++) {
 				if (arr[i][j] == '.') continue;
 				
-				if (arr[i][j] - '0' <= count[i][j]) queue.offer(new Point(i, j));
+				if (arr[i][j] - '0' <= count[i][j]) {
+					arr[i][j] = '.';
+					queue.offer(new Point(i, j));
+				}
 			}
 		}
 		
 		while (true) {
 			int k = queue.size();
+
 			if (k == 0) break;
 			cnt++;
 			
-			boolean[][] visit = new boolean[n][m];
-			
 			while (k-- > 0) {
 				Point cur = queue.poll();
-				arr[cur.x][cur.y] = '.';
 				
 				for (int d = 0; d < 8; d++) {
 					int ni = cur.x + di[d];
@@ -76,16 +76,15 @@ public class Main_10711 {
 					count[ni][nj]++;
 					
 					if (count[ni][nj] >= arr[ni][nj] - '0') {
-						if (visit[ni][nj]) continue;
-						visit[ni][nj] = true;
+						arr[ni][nj] = '.';
 						queue.offer(new Point(ni, nj));
 					}
 				}
 			}
 			
-			for (int i = 0; i < n; i++) System.out.println(Arrays.toString(arr[i]));
-			for (int i = 0; i < n; i++) System.out.println(Arrays.toString(count[i]));
-			System.out.println();
+//			for (int i = 0; i < n; i++) System.out.println(Arrays.toString(arr[i]));
+//			for (int i = 0; i < n; i++) System.out.println(Arrays.toString(count[i]));
+//			System.out.println();
 		}
 		
 		System.out.println(cnt);
